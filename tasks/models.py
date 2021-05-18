@@ -17,6 +17,7 @@ class Category(models.Model):
 
 
 class Task(models.Model):
+    category_id = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
     title = models.CharField(max_length=255, verbose_name='Задание')
     description = models.TextField(max_length=255, verbose_name='Описание')
     date_created = models.DateTimeField(auto_now=True, verbose_name='День создания')
@@ -24,11 +25,11 @@ class Task(models.Model):
     status = models.CharField(choices=STATUS_TASKS, max_length=9, verbose_name='Статус')
     deadline = models.DateTimeField(auto_created=True, verbose_name='Дедлайн')
     done = models.BooleanField(default=True)
-    category_id = models.ForeignKey(Category, on_delete=models.CASCADE, verbose_name='Категория')
+
 
     class Meta:
         verbose_name = 'Задача'
         verbose_name_plural = 'Задачи'
 
     def __str__(self):
-        return self.title
+        return f'{self.title} до {self.deadline}'
